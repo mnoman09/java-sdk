@@ -3649,6 +3649,7 @@ public class OptimizelyTest {
                 .build());
         ArrayList<String> featureFlags = (ArrayList<String>) spyOptimizely.getEnabledFeatures("",
                 new HashMap<String, String>());
+        logbackVerifier.expectMessage(Level.ERROR, "Non-empty user ID required");
         assertTrue(featureFlags.isEmpty());
 
     }
