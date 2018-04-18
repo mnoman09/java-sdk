@@ -3415,6 +3415,25 @@ public class OptimizelyTest {
     /**
      * Verify {@link Optimizely#getEnabledFeatures(String, Map)} calls into
      * {@link Optimizely#isFeatureEnabled(String, String, Map)} for each featureFlag sending
+     * userId as null
+     * return empty List of FeatureFlags without checking further.
+     */
+    @Test
+    public void  getEnabledFeatureWithNullUserID() throws ConfigParseException{
+        assumeTrue(datafileVersion >= Integer.parseInt(ProjectConfig.Version.V4.toString()));
+        String userID = null;
+        Optimizely spyOptimizely = spy(Optimizely.builder(validDatafile, mockEventHandler)
+                .withConfig(validProjectConfig)
+                .build());
+        ArrayList<String> featureFlags = (ArrayList<String>) spyOptimizely.getEnabledFeatures(userID,
+                new HashMap<String, String>());
+        logbackVerifier.expectMessage(Level.ERROR, "Non-null user ID required");
+        assertTrue(featureFlags.isEmpty());
+    }
+
+    /**
+     * Verify {@link Optimizely#getEnabledFeatures(String, Map)} calls into
+     * {@link Optimizely#isFeatureEnabled(String, String, Map)} for each featureFlag sending
      * userId and emptyMap and Mocked {@link Optimizely#isFeatureEnabled(String, String, Map)}
      * to return false so {@link Optimizely#getEnabledFeatures(String, Map)} will
      * return empty List of FeatureFlags.

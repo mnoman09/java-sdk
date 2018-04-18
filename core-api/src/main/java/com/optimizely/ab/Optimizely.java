@@ -584,7 +584,7 @@ public class Optimizely {
      * @return List of the feature keys that are enabled for the user if the userId is empty it will
      * return Empty List.
      */
-    public List<String> getEnabledFeatures(@Nonnull String userId,@Nonnull Map<String, String> attributes) {
+    public List<String> getEnabledFeatures(String userId,@Nonnull Map<String, String> attributes) {
         List<String> enabledFeaturesList = new ArrayList<String>();
 
         if (!validateUserId(userId)){
@@ -767,6 +767,10 @@ public class Optimizely {
      * @return whether the user ID is valid
      */
     private boolean validateUserId(String userId) {
+        if (userId == null) {
+            logger.error("Non-null user ID required");
+            return false;
+        }
         if (userId.trim().isEmpty()) {
             logger.error("Non-empty user ID required");
             return false;
