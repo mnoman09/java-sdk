@@ -768,7 +768,7 @@ public class Optimizely {
      */
     private boolean validateUserId(String userId) {
         if (userId == null) {
-            logger.error("Non-null user ID required");
+            logger.error("The user ID parameter must be nonnull.");
             return false;
         }
         if (userId.trim().isEmpty()) {

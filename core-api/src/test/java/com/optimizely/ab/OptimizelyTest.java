@@ -3416,8 +3416,10 @@ public class OptimizelyTest {
      * Verify {@link Optimizely#getEnabledFeatures(String, Map)} calls into
      * {@link Optimizely#isFeatureEnabled(String, String, Map)} for each featureFlag sending
      * userId as null
-     * return empty List of FeatureFlags without checking further.
+     * Exception of IllegalArgumentException will be thrown
+     * return
      */
+    @SuppressFBWarnings("NP_NONNULL_PARAM_VIOLATION")
     @Test
     public void  getEnabledFeatureWithNullUserID() throws ConfigParseException{
         assumeTrue(datafileVersion >= Integer.parseInt(ProjectConfig.Version.V4.toString()));
@@ -3427,8 +3429,12 @@ public class OptimizelyTest {
                 .build());
         ArrayList<String> featureFlags = (ArrayList<String>) spyOptimizely.getEnabledFeatures(userID,
                 new HashMap<String, String>());
-        logbackVerifier.expectMessage(Level.ERROR, "Non-null user ID required");
         assertTrue(featureFlags.isEmpty());
+
+        logbackVerifier.expectMessage(
+                Level.ERROR,
+                "The user ID parameter must be nonnull."
+        );
     }
 
     /**
