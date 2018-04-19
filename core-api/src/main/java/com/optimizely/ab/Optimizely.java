@@ -654,6 +654,11 @@ public class Optimizely {
             return null;
         }
 
+        if (experimentKey == null || experimentKey.trim().isEmpty()){
+            logger.error("The experimentKey parameter must be nonnull.");
+            return null;
+        }
+
         ProjectConfig currentConfig = getProjectConfig();
 
         Experiment experiment = currentConfig.getExperimentForKey(experimentKey, errorHandler);

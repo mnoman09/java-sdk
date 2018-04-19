@@ -2158,6 +2158,28 @@ public class OptimizelyTest {
     }
 
     /**
+     * Verify that {@link Optimizely#getVariation(String, String)} returns null variation when null or empty
+     * experimentKey is sent
+     */
+    @SuppressFBWarnings("NP_NONNULL_PARAM_VIOLATION")
+    @Test
+    public void getVariationWithNullExperimentKey() throws Exception {
+        Optimizely optimizely = Optimizely.builder(noAudienceDatafile, mockEventHandler)
+                .withBucketing(mockBucketer)
+                .withConfig(noAudienceProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        String nullExperimentKey = null;
+        // activate the experiment
+        Variation nullVariation = optimizely.getVariation(nullExperimentKey, testUserId);
+
+        assertNull(nullVariation);
+        logbackVerifier.expectMessage(Level.ERROR, "The experimentKey parameter must be nonnull.");
+
+    }
+
+    /**
      * Verify that {@link Optimizely#getVariation(String, String)} handles the case where an unknown experiment
      * (i.e., not in the config) is passed through and a {@link NoOpErrorHandler} is used by default.
      */
