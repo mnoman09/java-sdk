@@ -122,6 +122,11 @@ public class Optimizely {
                        @Nonnull String userId,
                        @Nonnull Map<String, String> attributes) throws UnknownExperimentException {
 
+        if (experimentKey == null) {
+            logger.error("The experimentKey parameter must be nonnull.");
+            return null;
+        }
+
         if (!validateUserId(userId)) {
             logger.info("Not activating user for experiment \"{}\".", experimentKey);
             return null;
@@ -161,6 +166,10 @@ public class Optimizely {
                        @Nonnull String userId,
                        @Nonnull Map<String, String> attributes) {
 
+        if (!validateUserId(userId)){
+            logger.info("Not activating user \"{}\" for experiment \"{}\".", userId, experiment.getKey());
+            return null;
+        }
         // determine whether all the given attributes are present in the project config. If not, filter out the unknown
         // attributes.
         Map<String, String> filteredAttributes = filterAttributes(projectConfig, attributes);

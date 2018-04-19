@@ -852,6 +852,80 @@ public class OptimizelyTest {
     }
 
     /**
+     * Verify that if user ID sent is null will return null variation.
+     */
+    @SuppressFBWarnings("NP_NONNULL_PARAM_VIOLATION")
+    @Test
+    public void activateUserIDIsNull() throws Exception {
+        Experiment experimentToCheck = validProjectConfig.getExperiments().get(0);
+        String nullUserID = null;
+        Optimizely optimizely = Optimizely.builder(validDatafile, mockEventHandler)
+                .withConfig(validProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        Map<String, String> testUserAttributes = new HashMap<String, String>();
+        testUserAttributes.put("browser_type", "chrome");
+
+        Variation nullVariation = optimizely.activate(experimentToCheck.getKey(), nullUserID, testUserAttributes);
+        assertNull(nullVariation);
+
+        logbackVerifier.expectMessage(
+                Level.ERROR,
+                "The user ID parameter must be nonnull."
+        );
+    }
+
+    /**
+     * Verify that if user ID sent is null will return null variation.
+     * In activate override function where experiment object is passed
+     */
+    @SuppressFBWarnings("NP_NONNULL_PARAM_VIOLATION")
+    @Test
+    public void activateWithExperimentUserIDIsNull() throws Exception {
+        Experiment experimentToCheck = validProjectConfig.getExperiments().get(0);
+        String nullUserID = null;
+        Optimizely optimizely = Optimizely.builder(validDatafile, mockEventHandler)
+                .withConfig(validProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        Map<String, String> testUserAttributes = new HashMap<String, String>();
+        testUserAttributes.put("browser_type", "chrome");
+
+        Variation nullVariation = optimizely.activate(experimentToCheck, nullUserID, testUserAttributes);
+        assertNull(nullVariation);
+
+        logbackVerifier.expectMessage(
+                Level.ERROR,
+                "The user ID parameter must be nonnull."
+        );
+    }
+
+    /**
+     * Verify that if Experiment key sent is null will return null variation.
+     */
+    @SuppressFBWarnings("NP_NONNULL_PARAM_VIOLATION")
+    @Test
+    public void activateExperimentKeyIsNull() throws Exception {
+        String nullExperimentKey = null;
+        Optimizely optimizely = Optimizely.builder(validDatafile, mockEventHandler)
+                .withConfig(validProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        Map<String, String> testUserAttributes = new HashMap<String, String>();
+        testUserAttributes.put("browser_type", "chrome");
+
+        Variation nullVariation = optimizely.activate(nullExperimentKey, testUserId, testUserAttributes);
+        assertNull(nullVariation);
+
+        logbackVerifier.expectMessage(
+                Level.ERROR,
+                "The experimentKey parameter must be nonnull."
+        );
+    }
+    /**
      * Verify that a user not in any of an experiment's audiences isn't assigned to a variation.
      */
     @Test
