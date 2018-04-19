@@ -233,6 +233,17 @@ public class Optimizely {
                       @Nonnull Map<String, String> attributes,
                       @Nonnull Map<String, ?> eventTags) throws UnknownEventTypeException {
 
+        if (!validateUserId(userId)) {
+            logger.info("Not tracking event \"{}\".", eventName);
+            return;
+        }
+
+        if (eventName == null || eventName.trim().isEmpty()){
+            logger.error("Event Key is null or empty when non-null and non-empty String was expected.");
+            logger.info("Not tracking event for user \"{}\".", userId);
+            return;
+        }
+
         ProjectConfig currentConfig = getProjectConfig();
 
         EventType eventType = currentConfig.getEventTypeForName(eventName, errorHandler);

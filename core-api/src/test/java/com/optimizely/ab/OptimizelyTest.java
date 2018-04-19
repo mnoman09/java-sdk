@@ -1796,10 +1796,111 @@ public class OptimizelyTest {
         verify(mockEventHandler).dispatchEvent(logEventToDispatch);
     }
 
+
     /**
-     * Verify that {@link Optimizely#track(String, String, Map)} doesn't dispatch an event when no valid experiments
-     * correspond to an event.
+     * Verify that {@link Optimizely#track(String, String, Map, Map)} called with null User ID will return and will not track
      */
+    @Test
+    @SuppressFBWarnings(
+            value="NP_NONNULL_PARAM_VIOLATION",
+            justification="testing nullness contract violation")
+    public void trackEventWithNullOrEmptyUserID() throws Exception {
+        EventType eventType;
+        if (datafileVersion >= 4) {
+            eventType = validProjectConfig.getEventNameMapping().get(EVENT_BASIC_EVENT_KEY);
+        } else {
+            eventType = validProjectConfig.getEventTypes().get(0);
+        }
+        // setup a mock event builder to return expected conversion params
+        EventBuilder mockEventBuilder = mock(EventBuilder.class);
+
+        Optimizely optimizely = Optimizely.builder(validDatafile, mockEventHandler)
+                .withBucketing(mockBucketer)
+                .withEventBuilder(mockEventBuilder)
+                .withConfig(validProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        Map<String, String> testParams = new HashMap<String, String>();
+        testParams.put("test", "params");
+        Map<Experiment, Variation> experimentVariationMap = createExperimentVariationMap(
+                validProjectConfig,
+                mockDecisionService,
+                eventType.getKey(),
+                genericUserId,
+                Collections.<String, String>emptyMap());
+        LogEvent logEventToDispatch = new LogEvent(RequestMethod.GET, "test_url", testParams, "");
+        when(mockEventBuilder.createConversionEvent(
+                eq(validProjectConfig),
+                eq(experimentVariationMap),
+                eq(genericUserId),
+                eq(eventType.getId()),
+                eq(eventType.getKey()),
+                eq(Collections.<String, String>emptyMap()),
+                eq(Collections.<String, String>emptyMap())))
+                .thenReturn(logEventToDispatch);
+
+        String userID = null;
+        // call track with null event key
+        optimizely.track(eventType.getKey(), userID, Collections.<String, String>emptyMap(), Collections.<String, Object>emptyMap());
+        logbackVerifier.expectMessage(Level.ERROR, "The user ID parameter must be nonnull.");
+        logbackVerifier.expectMessage(Level.INFO, "Not tracking event \""+eventType.getKey()+"\".");
+    }
+
+    /**
+     * Verify that {@link Optimizely#track(String, String, Map, Map)} called with null event name will return and will not track
+     */
+    @Test
+    @SuppressFBWarnings(
+            value="NP_NONNULL_PARAM_VIOLATION",
+            justification="testing nullness contract violation")
+    public void trackEventWithNullOrEmptyEventKey() throws Exception {
+        EventType eventType;
+        if (datafileVersion >= 4) {
+            eventType = validProjectConfig.getEventNameMapping().get(EVENT_BASIC_EVENT_KEY);
+        } else {
+            eventType = validProjectConfig.getEventTypes().get(0);
+        }
+        String nullEventKey = null;
+        // setup a mock event builder to return expected conversion params
+        EventBuilder mockEventBuilder = mock(EventBuilder.class);
+
+        Optimizely optimizely = Optimizely.builder(validDatafile, mockEventHandler)
+                .withBucketing(mockBucketer)
+                .withEventBuilder(mockEventBuilder)
+                .withConfig(validProjectConfig)
+                .withErrorHandler(mockErrorHandler)
+                .build();
+
+        Map<String, String> testParams = new HashMap<String, String>();
+        testParams.put("test", "params");
+        Map<Experiment, Variation> experimentVariationMap = createExperimentVariationMap(
+                validProjectConfig,
+                mockDecisionService,
+                eventType.getKey(),
+                genericUserId,
+                Collections.<String, String>emptyMap());
+        LogEvent logEventToDispatch = new LogEvent(RequestMethod.GET, "test_url", testParams, "");
+        when(mockEventBuilder.createConversionEvent(
+                eq(validProjectConfig),
+                eq(experimentVariationMap),
+                eq(genericUserId),
+                eq(eventType.getId()),
+                eq(eventType.getKey()),
+                eq(Collections.<String, String>emptyMap()),
+                eq(Collections.<String, String>emptyMap())))
+                .thenReturn(logEventToDispatch);
+
+        // call track with null event key
+        optimizely.track(nullEventKey, genericUserId, Collections.<String, String>emptyMap(), Collections.<String, Object>emptyMap());
+        logbackVerifier.expectMessage(Level.ERROR, "Event Key is null or empty when non-null and non-empty String was expected.");
+        logbackVerifier.expectMessage(Level.INFO, "Not tracking event for user \""+genericUserId+"\".");
+
+    }
+        /**
+         * Verify that {@link Optimizely#track(String, String, Map)} doesn't dispatch an event when no valid experiments
+         * correspond to an event.
+         */
     @Test
     public void trackEventWithNoValidExperiments() throws Exception {
         EventType eventType;
