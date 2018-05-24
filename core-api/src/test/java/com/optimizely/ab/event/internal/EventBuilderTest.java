@@ -109,7 +109,7 @@ public class EventBuilderTest {
         // verify that request endpoint is correct
         assertThat(impressionEvent.getEndpointUrl(), is(EventBuilder.EVENT_ENDPOINT));
 
-        EventBatch eventBatch = gson.fromJson(impressionEvent.getBody(), EventBatch.class);
+        EventBatch eventBatch = gson.fromJson(impressionEvent.getParams(), EventBatch.class);
 
         // verify payload information
         assertThat(eventBatch.getVisitors().get(0).getVisitorId(), is(userId));
@@ -142,7 +142,7 @@ public class EventBuilderTest {
                 builder.createImpressionEvent(projectConfig, activatedExperiment, bucketedVariation, "userId",
                         Collections.singletonMap("unknownAttribute", "blahValue"));
 
-        EventBatch impression = gson.fromJson(impressionEvent.getBody(), EventBatch.class);
+        EventBatch impression = gson.fromJson(impressionEvent.getParams(), EventBatch.class);
 
         // verify that no Feature is created for "unknownAtrribute" -> "blahValue"
         for (com.optimizely.ab.event.internal.payload.Attribute feature : impression.getVisitors().get(0).getAttributes()) {
@@ -167,7 +167,7 @@ public class EventBuilderTest {
 
         LogEvent impressionEvent = builder.createImpressionEvent(projectConfig, activatedExperiment, bucketedVariation,
                 userId, attributeMap);
-        EventBatch impression = gson.fromJson(impressionEvent.getBody(), EventBatch.class);
+        EventBatch impression = gson.fromJson(impressionEvent.getParams(), EventBatch.class);
 
         assertThat(impression.getClientName(), is(EventBatch.ClientEngine.ANDROID_SDK.getClientEngineValue()));
         assertThat(impression.getClientVersion(), is("0.0.0"));
@@ -190,7 +190,7 @@ public class EventBuilderTest {
 
         LogEvent impressionEvent = builder.createImpressionEvent(projectConfig, activatedExperiment, bucketedVariation,
                 userId, attributeMap);
-        EventBatch impression = gson.fromJson(impressionEvent.getBody(), EventBatch.class);
+        EventBatch impression = gson.fromJson(impressionEvent.getParams(), EventBatch.class);
 
         assertThat(impression.getClientName(), is(EventBatch.ClientEngine.ANDROID_TV_SDK.getClientEngineValue()));
         assertThat(impression.getClientVersion(), is(clientVersion));
@@ -256,7 +256,7 @@ public class EventBuilderTest {
         // verify that the request endpoint is correct
         assertThat(conversionEvent.getEndpointUrl(), is(EventBuilder.EVENT_ENDPOINT));
 
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
 
         // verify payload information
         assertThat(conversion.getVisitors().get(0).getVisitorId(), is(userId));
@@ -324,7 +324,7 @@ public class EventBuilderTest {
                 eventType.getId(), eventType.getKey(), attributeMap,
                 eventTagMap);
 
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
         // we're not going to verify everything, only the event metrics
         assertThat(conversion.getVisitors().get(0).getSnapshots().get(0).getEvents().get(0).getRevenue().longValue(), is(revenue));
         assertThat(conversion.getVisitors().get(0).getSnapshots().get(0).getEvents().get(0).getValue().doubleValue(), is(value));
@@ -372,7 +372,7 @@ public class EventBuilderTest {
                 Collections.<String, Object>emptyMap());
         assertNotNull(conversionEvent);
 
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
         if (datafileVersion == 4) {
             // 2 experiments use the event
             // basic experiment has no audience
@@ -467,7 +467,7 @@ public class EventBuilderTest {
                 attributeMap,
                 Collections.<String, Object>emptyMap());
 
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
 
         assertThat(conversion.getClientName(), is(EventBatch.ClientEngine.ANDROID_SDK.getClientEngineValue()));
         assertThat(conversion.getClientVersion(), is("0.0.0"));
@@ -507,7 +507,7 @@ public class EventBuilderTest {
                 eventType.getKey(),
                 attributeMap,
                 Collections.<String, Object>emptyMap());
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
 
         assertThat(conversion.getClientName(), is(EventBatch.ClientEngine.ANDROID_TV_SDK.getClientEngineValue()));
         assertThat(conversion.getClientVersion(), is(clientVersion));
@@ -570,7 +570,7 @@ public class EventBuilderTest {
         // verify that request endpoint is correct
         assertThat(impressionEvent.getEndpointUrl(), is(EventBuilder.EVENT_ENDPOINT));
 
-        EventBatch impression = gson.fromJson(impressionEvent.getBody(), EventBatch.class);
+        EventBatch impression = gson.fromJson(impressionEvent.getParams(), EventBatch.class);
 
         // verify payload information
         assertThat(impression.getVisitors().get(0).getVisitorId(), is(userId));
@@ -652,7 +652,7 @@ public class EventBuilderTest {
         // verify that the request endpoint is correct
         assertThat(conversionEvent.getEndpointUrl(), is(EventBuilder.EVENT_ENDPOINT));
 
-        EventBatch conversion = gson.fromJson(conversionEvent.getBody(), EventBatch.class);
+        EventBatch conversion = gson.fromJson(conversionEvent.getParams(), EventBatch.class);
 
         // verify payload information
         assertThat(conversion.getVisitors().get(0).getVisitorId(), is(userId));

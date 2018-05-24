@@ -201,7 +201,7 @@ public class Optimizely {
             logger.info("Activating user \"{}\" in experiment \"{}\".", userId, experiment.getKey());
             logger.debug(
                     "Dispatching impression event to URL {} with params {} and payload \"{}\".",
-                    impressionEvent.getEndpointUrl(), impressionEvent.getRequestParams(), impressionEvent.getBody());
+                    impressionEvent.getEndpointUrl(), impressionEvent.getRequestParams(), impressionEvent.getParams());
             try {
                 eventHandler.dispatchEvent(impressionEvent);
             } catch (Exception e) {
@@ -231,7 +231,7 @@ public class Optimizely {
     public void track(@Nonnull String eventName,
                       @Nonnull String userId,
                       @Nonnull Map<String, String> attributes,
-                      @Nonnull Map<String, ?> eventTags) throws UnknownEventTypeException {
+                       Map<String, ?> eventTags) throws UnknownEventTypeException {
 
         if (!validateUserId(userId)) {
             logger.info("Not tracking event \"{}\".", eventName);
@@ -295,7 +295,7 @@ public class Optimizely {
 
         logger.info("Tracking event \"{}\" for user \"{}\".", eventName, userId);
         logger.debug("Dispatching conversion event to URL {} with params {} and payload \"{}\".",
-                conversionEvent.getEndpointUrl(), conversionEvent.getRequestParams(), conversionEvent.getBody());
+                conversionEvent.getEndpointUrl(), conversionEvent.getRequestParams(), conversionEvent.getParams());
         try {
             eventHandler.dispatchEvent(conversionEvent);
         } catch (Exception e) {

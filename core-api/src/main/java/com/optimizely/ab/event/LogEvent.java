@@ -16,6 +16,9 @@
  */
 package com.optimizely.ab.event;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -30,16 +33,16 @@ public class LogEvent {
     private final RequestMethod requestMethod;
     private final String endpointUrl;
     private final Map<String, String> requestParams;
-    private final String body;
+    private final JsonObject params;
 
     public LogEvent(@Nonnull RequestMethod requestMethod,
                     @Nonnull String endpointUrl,
                     @Nonnull Map<String, String> requestParams,
-                    @Nonnull String body) {
+                    @Nonnull String params) {
         this.requestMethod = requestMethod;
         this.endpointUrl = endpointUrl;
         this.requestParams = requestParams;
-        this.body = body;
+        this.params = new Gson().fromJson(params, JsonObject.class);
     }
 
     //======== Getters ========//
@@ -56,8 +59,12 @@ public class LogEvent {
         return requestParams;
     }
 
-    public String getBody() {
-        return body;
+    public String getParams() {
+        String params = "";
+        if(this.params != null){
+            params = new Gson().toJson(this.params);
+        }
+        return params;
     }
 
     //======== Overriding method ========//
@@ -68,7 +75,7 @@ public class LogEvent {
                "requestMethod=" + requestMethod +
                ", endpointUrl='" + endpointUrl + '\'' +
                ", requestParams=" + requestParams +
-               ", body='" + body + '\'' +
+               ", params='" + getParams() + '\'' +
                '}';
     }
 
