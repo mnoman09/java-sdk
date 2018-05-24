@@ -231,7 +231,7 @@ public class Optimizely {
     public void track(@Nonnull String eventName,
                       @Nonnull String userId,
                       @Nonnull Map<String, String> attributes,
-                       Map<String, ?> eventTags) throws UnknownEventTypeException {
+                      @Nonnull Map<String, ?> eventTags) throws UnknownEventTypeException {
 
         if (!validateUserId(userId)) {
             logger.info("Not tracking event \"{}\".", eventName);
