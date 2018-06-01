@@ -17,7 +17,6 @@
 package com.optimizely.ab.event.internal;
 
 import com.optimizely.ab.annotations.VisibleForTesting;
-import com.optimizely.ab.bucketing.DecisionService;
 import com.optimizely.ab.config.EventType;
 import com.optimizely.ab.config.Experiment;
 import com.optimizely.ab.config.ProjectConfig;
@@ -138,8 +137,6 @@ public class EventBuilder {
             );
             attributesList.add(attribute);
         }
-
-
 
         return attributesList;
     }

@@ -129,7 +129,7 @@ public class ProjectConfig {
         this(
                 accountId,
                 anonymizeIP,
-                false,
+                null,
                 projectId,
                 revision,
                 version,
