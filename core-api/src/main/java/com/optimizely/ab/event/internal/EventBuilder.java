@@ -115,28 +115,18 @@ public class EventBuilder {
         return new LogEvent(LogEvent.RequestMethod.POST, EVENT_ENDPOINT, Collections.<String, String>emptyMap(), payload);
     }
 
-    private List<Attribute> buildAttributeList(ProjectConfig projectConfig, Map<String, String> attributes) {
+    private List<Attribute> buildAttributeList (ProjectConfig projectConfig, Map<String, String> attributes) {
         List<Attribute> attributesList = new ArrayList<Attribute>();
 
-        Map<String, com.optimizely.ab.config.Attribute> attributeMap = projectConfig.getAttributeKeyMapping();
         for (Map.Entry<String, String> entry : attributes.entrySet()) {
-            com.optimizely.ab.config.Attribute projectAttribute = attributeMap.get(entry.getKey());
-            Attribute attribute = new Attribute((projectAttribute != null ? projectAttribute.getId() : null),
-                    entry.getKey(), Attribute.CUSTOM_ATTRIBUTE_TYPE, entry.getValue());
-
-            if (entry.getKey().equals(ReservedAttributeKey.BUCKETING_ATTRIBUTE.toString())) {
-                attribute = new Attribute(ReservedAttributeKey.BUCKETING_ATTRIBUTE.toString(),
-                        ReservedAttributeKey.BUCKETING_ATTRIBUTE.toString(),
+            String attributeId = projectConfig.getAttributeId(projectConfig, entry.getKey());
+            if(attributeId != null) {
+                Attribute attribute = new Attribute(attributeId,
+                        entry.getKey(),
                         Attribute.CUSTOM_ATTRIBUTE_TYPE,
                         entry.getValue());
-            } else if (entry.getKey().equals(ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString())) {
-                attribute = new Attribute(ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString(),
-                        ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString(),
-                        Attribute.CUSTOM_ATTRIBUTE_TYPE,
-                        entry.getValue());
+                attributesList.add(attribute);
             }
-
-            attributesList.add(attribute);
         }
 
         Attribute attribute = new Attribute(

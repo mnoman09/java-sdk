@@ -24,8 +24,10 @@ import com.optimizely.ab.config.audience.Condition;
 import com.optimizely.ab.error.ErrorHandler;
 import com.optimizely.ab.error.NoOpErrorHandler;
 import com.optimizely.ab.error.RaiseExceptionErrorHandler;
+import com.optimizely.ab.internal.ReservedAttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Attr;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -37,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.ErrorManager;
 
 /**
  * Represents the Optimizely Project configuration.
@@ -101,6 +104,8 @@ public class ProjectConfig {
     private final Map<String, Map<String, LiveVariableUsageInstance>> variationToLiveVariableUsageInstanceMapping;
     private final Map<String, Experiment> variationIdToExperimentMapping;
 
+    // reserved word
+    private final static String RESERVED_ATTRIBUTE_PREFIX = "$opt_";
     /**
      *  Forced variations supersede any other mappings.  They are transient and are not persistent or part of
      * the actual datafile. This contains all the forced variations
@@ -287,6 +292,34 @@ public class ProjectConfig {
         }
 
         return groupExperiments;
+    }
+
+    /**
+     * Checks if attributeKey is reserved or not and is it exist in attributeKeyMapping
+     * @param attributeKey
+     * @return
+     */
+    public String getAttributeId(ProjectConfig projectConfig, String attributeKey) {
+        String attributeIdOrKey = null;
+        if (!attributeKey.equals(ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString())) {
+            com.optimizely.ab.config.Attribute attribute = projectConfig.getAttributeKeyMapping().get(attributeKey);
+            boolean hasReservedPrefix = attributeKey.indexOf(RESERVED_ATTRIBUTE_PREFIX) == 0;
+            if (attribute != null) {
+                if (hasReservedPrefix) {
+                    logger.warn("Attribute {} unexpectedly has reserved prefix {}; using attribute ID instead of reserved attribute name.",
+                            attributeKey, RESERVED_ATTRIBUTE_PREFIX);
+                }
+                attributeIdOrKey = attribute.getId();
+            } else if (hasReservedPrefix) {
+                attributeIdOrKey = attributeKey;
+            } else {
+                logger.debug("Unrecognized Attribute \"{}\"", attributeKey);
+            }
+        } else {
+            logger.warn("Attribute {} unexpectedly has reserved prefix {}; using attribute ID instead of reserved attribute name.",
+                    attributeKey, RESERVED_ATTRIBUTE_PREFIX);
+        }
+        return attributeIdOrKey;
     }
 
     public String getAccountId() {
