@@ -83,11 +83,12 @@ final class JsonSimpleConfigParser implements ConfigParser {
 
             List<FeatureFlag> featureFlags = null;
             List<Rollout> rollouts = null;
-            boolean botFiltering = false;
+            Boolean botFiltering = null;
             if (datafileVersion >= Integer.parseInt(ProjectConfig.Version.V4.toString())) {
                 featureFlags = parseFeatureFlags((JSONArray) rootObject.get("featureFlags"));
                 rollouts = parseRollouts((JSONArray) rootObject.get("rollouts"));
-                botFiltering = (Boolean) rootObject.get("botFiltering");
+                if(rootObject.containsKey("botFiltering"))
+                    botFiltering = (Boolean) rootObject.get("botFiltering");
             }
 
             return new ProjectConfig(

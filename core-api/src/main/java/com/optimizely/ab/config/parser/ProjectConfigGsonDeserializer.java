@@ -82,13 +82,14 @@ public class ProjectConfigGsonDeserializer implements JsonDeserializer<ProjectCo
 
         List<FeatureFlag> featureFlags = null;
         List<Rollout> rollouts = null;
-        boolean botFiltering = false;
+        Boolean botFiltering = null;
         if (datafileVersion >= Integer.parseInt(ProjectConfig.Version.V4.toString())) {
             Type featureFlagsType = new TypeToken<List<FeatureFlag>>() {}.getType();
             featureFlags = context.deserialize(jsonObject.getAsJsonArray("featureFlags"), featureFlagsType);
             Type rolloutsType = new TypeToken<List<Rollout>>() {}.getType();
             rollouts = context.deserialize(jsonObject.get("rollouts").getAsJsonArray(), rolloutsType);
-            botFiltering = jsonObject.get("botFiltering").getAsBoolean();
+            if(jsonObject.has("botFiltering"))
+                botFiltering = jsonObject.get("botFiltering").getAsBoolean();
         }
 
         return new ProjectConfig(

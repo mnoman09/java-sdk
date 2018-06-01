@@ -35,6 +35,10 @@
     {
       "id": "58339410",
       "key": "nationality"
+    },
+    {
+      "id": "583394100",
+      "key": "$opt_test"
     }
   ],
   "events": [

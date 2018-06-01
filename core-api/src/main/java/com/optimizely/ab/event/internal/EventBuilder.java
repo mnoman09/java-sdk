@@ -129,14 +129,16 @@ public class EventBuilder {
             }
         }
 
-        Attribute attribute = new Attribute(
-                ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString(),
-                ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString(),
-                Attribute.CUSTOM_ATTRIBUTE_TYPE,
-                Boolean.toString(projectConfig.getBotFiltering())
-        );
+        if(projectConfig.getBotFiltering() != null) {
+            Attribute attribute = new Attribute(
+                    ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString(),
+                    ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString(),
+                    Attribute.CUSTOM_ATTRIBUTE_TYPE,
+                    Boolean.toString(projectConfig.getBotFiltering())
+            );
+            attributesList.add(attribute);
+        }
 
-        attributesList.add(attribute);
 
 
         return attributesList;

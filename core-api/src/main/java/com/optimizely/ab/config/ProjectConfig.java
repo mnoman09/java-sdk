@@ -76,7 +76,7 @@ public class ProjectConfig {
     private final String revision;
     private final String version;
     private final boolean anonymizeIP;
-    private final boolean botFiltering;
+    private final Boolean botFiltering;
     private final List<Attribute> attributes;
     private final List<Audience> audiences;
     private final List<EventType> events;
@@ -147,7 +147,7 @@ public class ProjectConfig {
     // v4 constructor
     public ProjectConfig(String accountId,
                          boolean anonymizeIP,
-                         boolean botFiltering,
+                         Boolean botFiltering,
                          String projectId,
                          String revision,
                          String version,
@@ -342,7 +342,7 @@ public class ProjectConfig {
         return anonymizeIP;
     }
 
-    public boolean getBotFiltering() {
+    public Boolean getBotFiltering() {
         return botFiltering;
     }
 

@@ -397,4 +397,14 @@ public class ProjectConfigTest {
         logbackVerifier.expectMessage(Level.DEBUG, "Unrecognized Attribute \""+invalidAttribute+"\"");
     }
 
+    @Test
+    public void getAttributeIDWhenAttributeKeyPrefixIsMatched() {
+        ProjectConfig projectConfig = ProjectConfigTestUtils.validProjectConfigV4();
+        String attributeWithReservedPrefix = "$opt_test";
+        String attributeID = projectConfig.getAttributeId(projectConfig, attributeWithReservedPrefix);
+        assertEquals(attributeID,"583394100");
+        logbackVerifier.expectMessage(Level.WARN, "Attribute "+attributeWithReservedPrefix +" unexpectedly" +
+                " has reserved prefix $opt_; using attribute ID instead of reserved attribute name.");
+    }
+
 }

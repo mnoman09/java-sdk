@@ -45,6 +45,10 @@ public class ValidProjectConfigV4 {
     public  static final String     ATTRIBUTE_NATIONALITY_KEY = "nationality";
     private static final Attribute  ATTRIBUTE_NATIONALITY = new Attribute(ATTRIBUTE_NATIONALITY_ID, ATTRIBUTE_NATIONALITY_KEY);
 
+    private static final String     ATTRIBUTE_OPT_ID = "583394100";
+    public  static final String     ATTRIBUTE_OPT_KEY = "$opt_test";
+    private static final Attribute  ATTRIBUTE_OPT = new Attribute(ATTRIBUTE_OPT_ID, ATTRIBUTE_OPT_KEY);
+
     // audiences
     private static final String     CUSTOM_DIMENSION_TYPE = "custom_dimension";
     private static final String     AUDIENCE_GRYFFINDOR_ID = "3468206642";
@@ -1028,6 +1032,7 @@ public class ValidProjectConfigV4 {
         List<Attribute> attributes = new ArrayList<Attribute>();
         attributes.add(ATTRIBUTE_HOUSE);
         attributes.add(ATTRIBUTE_NATIONALITY);
+        attributes.add(ATTRIBUTE_OPT);
 
         // list audiences
         List<Audience> audiences = new ArrayList<Audience>();
