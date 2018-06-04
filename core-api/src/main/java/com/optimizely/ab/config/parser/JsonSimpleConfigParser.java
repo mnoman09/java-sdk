@@ -1,6 +1,6 @@
 /**
  *
- *    Copyright 2016-2017, Optimizely and contributors
+ *    Copyright 2016-2018, Optimizely and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -56,12 +56,12 @@ final class JsonSimpleConfigParser implements ConfigParser {
     public ProjectConfig parseProjectConfig(@Nonnull String json) throws ConfigParseException {
         try {
             JSONParser parser = new JSONParser();
-            JSONObject rootObject = (JSONObject) parser.parse(json);
+            JSONObject rootObject = (JSONObject)parser.parse(json);
 
-            String accountId = (String) rootObject.get("accountId");
-            String projectId = (String) rootObject.get("projectId");
-            String revision = (String) rootObject.get("revision");
-            String version = (String) rootObject.get("version");
+            String accountId = (String)rootObject.get("accountId");
+            String projectId = (String)rootObject.get("projectId");
+            String revision = (String)rootObject.get("revision");
+            String version = (String)rootObject.get("version");
             int datafileVersion = Integer.parseInt(version);
 
             List<Experiment> experiments = parseExperiments((JSONArray) rootObject.get("experiments"));

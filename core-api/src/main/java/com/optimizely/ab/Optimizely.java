@@ -766,7 +766,8 @@ public class Optimizely {
         Map<String, Attribute> attributeKeyMapping = projectConfig.getAttributeKeyMapping();
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
             if (!attributeKeyMapping.containsKey(attribute.getKey()) &&
-                    attribute.getKey() != ReservedAttributeKey.BUCKETING_ATTRIBUTE.toString()) {
+                    !attribute.getKey().equals(ReservedAttributeKey.BUCKETING_ATTRIBUTE.toString()) &&
+                        !attribute.getKey().equals(ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString())) {
                 if (unknownAttributes == null) {
                     unknownAttributes = new ArrayList<String>();
                 }

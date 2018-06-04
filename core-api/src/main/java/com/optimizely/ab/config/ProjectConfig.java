@@ -1,6 +1,6 @@
 /**
  *
- *    Copyright 2016-2017, Optimizely and contributors
+ *    Copyright 2016-2018, Optimizely and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -316,8 +316,8 @@ public class ProjectConfig {
                 logger.debug("Unrecognized Attribute \"{}\"", attributeKey);
             }
         } else {
-            logger.warn("Attribute {} unexpectedly has reserved prefix {}; using attribute ID instead of reserved attribute name.",
-                    attributeKey, RESERVED_ATTRIBUTE_PREFIX);
+            logger.warn("Attribute {} unexpectedly has reserved key {}.",
+                    attributeKey, ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString());
         }
         return attributeIdOrKey;
     }

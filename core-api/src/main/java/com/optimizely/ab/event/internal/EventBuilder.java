@@ -45,7 +45,7 @@ import java.util.UUID;
 public class EventBuilder {
     private static final Logger logger = LoggerFactory.getLogger(EventBuilder.class);
     static final String EVENT_ENDPOINT = "https://logx.optimizely.com/v1/events";
-    static final String ACTIVATE_EVENT_KEY = "campaign_activated";
+    static final String  ACTIVATE_EVENT_KEY = "campaign_activated";
 
     private Serializer serializer;
     @VisibleForTesting
@@ -114,7 +114,7 @@ public class EventBuilder {
         return new LogEvent(LogEvent.RequestMethod.POST, EVENT_ENDPOINT, Collections.<String, String>emptyMap(), payload);
     }
 
-    private List<Attribute> buildAttributeList (ProjectConfig projectConfig, Map<String, String> attributes) {
+    private List<Attribute> buildAttributeList(ProjectConfig projectConfig, Map<String, String> attributes) {
         List<Attribute> attributesList = new ArrayList<Attribute>();
 
         for (Map.Entry<String, String> entry : attributes.entrySet()) {
@@ -128,6 +128,7 @@ public class EventBuilder {
             }
         }
 
+        //checks if botFiltering value is not set in the project config file.
         if(projectConfig.getBotFiltering() != null) {
             Attribute attribute = new Attribute(
                     ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString(),
