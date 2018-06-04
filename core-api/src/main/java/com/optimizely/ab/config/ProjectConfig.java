@@ -104,8 +104,8 @@ public class ProjectConfig {
     private final Map<String, Map<String, LiveVariableUsageInstance>> variationToLiveVariableUsageInstanceMapping;
     private final Map<String, Experiment> variationIdToExperimentMapping;
 
-    // reserved word
     private final static String RESERVED_ATTRIBUTE_PREFIX = "$opt_";
+
     /**
      *  Forced variations supersede any other mappings.  They are transient and are not persistent or part of
      * the actual datafile. This contains all the forced variations
@@ -295,9 +295,10 @@ public class ProjectConfig {
     }
 
     /**
-     * Checks if attributeKey is reserved or not and is it exist in attributeKeyMapping
+     * Checks is attributeKey is reserved or not and is it exist in attributeKeyMapping
      * @param attributeKey
-     * @return
+     * @return AttributeId corresponding to AttributeKeyMapping, AttributeKey when it's a reserved attribute and
+     * null when attributeKey is equal to BOT_FILTERING_ATTRIBUTE key.
      */
     public String getAttributeId(ProjectConfig projectConfig, String attributeKey) {
         String attributeIdOrKey = null;

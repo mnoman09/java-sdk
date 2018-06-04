@@ -362,14 +362,13 @@ public class ProjectConfigTest {
     @Test
     public void getAttributeIDWhenAttributeKeyIsEqualtoBotFiltering() {
         ProjectConfig projectConfig = ProjectConfigTestUtils.validProjectConfigV4();
-        String attributeID = projectConfig.getAttributeId(projectConfig, ReservedAttributeKey.BOT_FILTERING_ATTRIBUTE.toString());
+        String attributeID = projectConfig.getAttributeId(projectConfig, "$opt_bot_filtering");
         assertNull(attributeID);
     }
 
     @Test
     public void getAttributeIDWhenAttributeKeyIsFromAttributeKeyMapping() {
         ProjectConfig projectConfig = ProjectConfigTestUtils.validProjectConfigV4();
-
         String attributeID = projectConfig.getAttributeId(projectConfig, "house");
         assertEquals(attributeID, "553339214");
     }
@@ -377,14 +376,7 @@ public class ProjectConfigTest {
     @Test
     public void getAttributeIDWhenAttributeKeyIsUsingReservedKey() {
         ProjectConfig projectConfig = ProjectConfigTestUtils.validProjectConfigV4();
-        String attributeID = projectConfig.getAttributeId(projectConfig, "house");
-        assertEquals(attributeID, "553339214");
-    }
-
-    @Test
-    public void getAttributeIDWhenAttributeKeyHaveFromReservedKey() {
-        ProjectConfig projectConfig = ProjectConfigTestUtils.validProjectConfigV4();
-        String attributeID = projectConfig.getAttributeId(projectConfig, ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString());
+        String attributeID = projectConfig.getAttributeId(projectConfig, "$opt_user_agent");
         assertEquals(attributeID, ReservedAttributeKey.USER_AGENT_ATTRIBUTE.toString());
     }
 
