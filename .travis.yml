@@ -24,3 +24,4 @@ branches:
   - /^\d+\.\d+\.\d+(-SNAPSHOT|-alpha|-beta)?\d*$/ # trigger builds on tags which are semantically versioned to ship the SDK.
 after_success:
   - ./gradlew coveralls uploadArchives --console plain
+  - ./push-javadoc-to-gh-pages.sh
