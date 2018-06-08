@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_REPO_SLUG" == "mnoman09/java-sdk" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "mnoman09/java-sdk" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then
 
   echo -e "Publishing javadoc...\n"
 
