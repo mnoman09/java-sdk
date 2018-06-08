@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if [ "$TRAVIS_REPO_SLUG" == "mnoman09/java-sdk" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then
-
   echo -e "Publishing javadoc...\n"
 
   cp -R core-api/build/docs/javadoc $HOME/javadoc-latest
@@ -19,5 +18,4 @@ if [ "$TRAVIS_REPO_SLUG" == "mnoman09/java-sdk" ] && [ "$TRAVIS_JDK_VERSION" == 
   git push -fq origin gh-pages > /dev/null
 
   echo -e "Published Javadoc to gh-pages.\n"
-  
 fi
