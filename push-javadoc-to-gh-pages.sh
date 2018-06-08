@@ -9,7 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "mnoman09/java-sdk" ] && [ "$TRAVIS_JDK_VERSION" == 
   cd $HOME
   git config --global user.email "muhammadnoman@folio3.com"
   git config --global user.name "mnoman09"
-  git clone --quiet --branch=gh-pages https://${GITHUB_API_KEY}@github.com/mnoman09/java-sdk gh-pages > /dev/null
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/mnoman09/java-sdk gh-pages > /dev/null
 
   cd gh-pages
   git rm -rf ./javadoc
