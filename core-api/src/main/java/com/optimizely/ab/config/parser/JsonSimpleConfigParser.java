@@ -199,7 +199,7 @@ final class JsonSimpleConfigParser implements ConfigParser {
             String key = (String)variationObject.get("key");
             Boolean featureEnabled = false;
 
-            if(variationObject.containsKey("featureEnabled"))
+            if(variationObject.containsKey("featureEnabled") && variationObject.get("featureEnabled") != null)
                 featureEnabled = (Boolean)variationObject.get("featureEnabled");
 
             List<LiveVariableUsageInstance> liveVariableUsageInstances = null;

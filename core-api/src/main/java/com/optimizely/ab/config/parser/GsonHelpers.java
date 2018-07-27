@@ -51,7 +51,7 @@ final class GsonHelpers {
             String id = variationObject.get("id").getAsString();
             String key = variationObject.get("key").getAsString();
             Boolean featureEnabled = false;
-            if (variationObject.has("featureEnabled"))
+            if (variationObject.has("featureEnabled") && variationObject.get("featureEnabled") != null)
                 featureEnabled = variationObject.get("featureEnabled").getAsBoolean();
 
             List<LiveVariableUsageInstance> variableUsageInstances = null;
